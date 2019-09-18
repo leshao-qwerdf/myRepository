@@ -1,0 +1,100 @@
+﻿server:
+  port: 8782
+  # 该项目下所有接口前缀
+  context-path: 
+  
+hystrix:
+  config:
+    stream:
+      maxConcurrentConnections: 50
+      
+spring:
+  application:
+    name: server-feign
+  http:
+    multipart:
+      enabled: true
+      #设置单个文件的大小
+      maxFileSize: 5MB
+      #每次request 请求大小
+      maxRequestSize: 10MB
+    
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    #eureka client刷新本地缓存时间 默认30s
+    registryFetchIntervalSeconds: 5
+  instance:
+    #服务过期时间配置,超过这个时间没有接收到心跳EurekaServer就会将这个实例剔除
+    #注意，EurekaServer一定要设置eureka.server.eviction-interval-timer-in-ms否则这个配置无效，
+    leaseExpirationDurationInSeconds: 10
+    #服务刷新时间配置，每隔这个时间会主动心跳一次 默认30s
+    leaseRenewalIntervalInSeconds: 5
+    
+ribbon:
+  ReadTimeout: 15000
+  ConnectTimeout: 15000
+  #eureka客户端ribbon刷新时间 默认30s
+  ServerListRefreshInterval: 2000
+  eureka:
+    enabled: true
+
+      
+datasource:
+  master:
+    url: jdbc:mysql://172.16.16.41:3306/bb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: root
+    driverClassName: com.mysql.jdbc.Driver
+    testWhileIdle: true
+    validationQuery: select 1
+    testOnBorrow: false
+    validationInterval: 1000
+    minIdle: 10
+    maxIdle: 15
+    maxActive: 8
+    initialSize: 8
+    testOnConnect: true
+    initSQL: select 1
+  slave:
+    url: jdbc:mysql://172.16.16.41:3306/bb?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: root
+    driverClassName: com.mysql.jdbc.Driver
+    testWhileIdle: true
+    validationQuery: select 1
+    testOnBorrow: false
+    validationInterval: 1000
+    minIdle: 10
+    maxIdle: 15
+    maxActive: 8
+    initialSize: 8
+    testOnConnect: true
+    initSQL: select 1
+
+####################################################
+##############        redis 配置                  ##############
+####################################################
+# Database index used by the connection factory.
+# redis:
+  # database: 0
+  # host: 192.168.1.227
+  # password: xybb_dev
+  # pool.max-active: 8
+  # pool.max-idle: 8
+  # pool.max-wait: -1
+  # pool.min-idle: 0
+  # port: 6379
+  # timeout: 5000
+
+# service:
+  # config:
+    # imgPrefix: http://img1.xyb2b.com/
+# logging:
+    # level: 
+      # com:
+        # xingyun:
+            # xybb:
+              # admin:               
+                # mapper: DEBUG    
